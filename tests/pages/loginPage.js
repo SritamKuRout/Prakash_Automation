@@ -1,4 +1,4 @@
-const BasePage=require('D:/PLAYWRIGHT_AUTOMATION/tests/pages/basePage.js');
+const BasePage=require('../pages/basePage.js');
 
 class LoginPage extends BasePage {
     constructor(page){
