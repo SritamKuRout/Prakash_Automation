@@ -13,6 +13,7 @@ class LoginPage extends BasePage {
     }
     async enterPassword(password){
       await this.passwordInput.fill(password)
+      
     }
     async clkLoginBtn(){
       await this.loginBtn.click()

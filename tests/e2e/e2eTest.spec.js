@@ -16,6 +16,21 @@ let dashBoardPage;
 let databasePage;
 let emailPage;
 
+function getOTP() {
+    return new Promise((resolve) => {
+        const rl = readline.createInterface({
+            input: process.stdin,
+            output: process.stdout
+        });
+        
+        rl.question('Please enter the code you received: ', (answer) => {
+            console.log(`You entered: ${answer}`);
+            rl.close();
+            resolve(answer);  // Resolve the promise with the user's input
+        });
+    });
+}
+
 test.describe('Prakash Application Tests', () => {
 
     test.beforeAll(async () => {
@@ -31,17 +46,9 @@ test.describe('Prakash Application Tests', () => {
         await emailPage.fillEmail('sritamkumar.rout@datavizz.in');
         await emailPage.clickSubmit();
 
-        const rl = readline.createInterface({
-            input: process.stdin,
-            output: process.stdout
-        });
-
-        function askQuestion(query) {
-            return new Promise(resolve => rl.question(query, resolve));
-        }
-
-        const code = await askQuestion('Please enter the code you received: ');
-        rl.close();  // Close readline interface after getting the code
+        console.log('Waiting for OTP input...');
+        const code = await getOTP();  // Using readline for OTP input
+        console.log('Received OTP:', code);
 
         await emailPage.enterCode(code);
         await emailPage.clickSignInButton();
@@ -63,13 +70,11 @@ test.describe('Prakash Application Tests', () => {
         await databasePage.deleteDatabase();
         await databasePage.enterDelete();
         await databasePage.confirmDelete();
-        //await page.waitForTimeout(10000);
     });
 
     test('Create Database service', async () => {
         await dashBoardPage.clkServices();
         await databasePage.addService();
-        // await page.waitForTimeout(10000);
     });
 
 });
